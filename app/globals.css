@@ -1,26 +1,205 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #090909;
+  --card: rgba(255, 255, 255, 0.05);
+  --rose: #C44569;
+  --gold: #D4AF37;
+  --text: #F6F2EB;
+  --muted: #C8C8C8;
+  --accent-glow: rgba(212, 175, 55, 0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 22%),
+    radial-gradient(circle at bottom right, rgba(196, 69, 105, 0.08), transparent 18%),
+    linear-gradient(180deg, #0b0b0b 0%, #161616 100%);
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Cormorant Garamond", serif;
+  letter-spacing: 0.02em;
+}
+
+body,
+p,
+span,
+div,
+button,
+input,
+textarea,
+select {
+  font-family: "Poppins", sans-serif;
+}
+
+.quote,
+.romantic-quote {
+  font-family: "Great Vibes", cursive;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+button {
+  cursor: pointer;
+}
+
+.card-shell {
+  transform: perspective(1200px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+  transform-style: preserve-3d;
+}
+
+.card-glow {
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(212,175,55,0.12) 34%, rgba(255,255,255,0.04) 72%, rgba(196,69,105,0.14) 100%);
+  background-position: var(--shine-x, 50%) var(--shine-y, 50%);
+  background-size: 220% 220%;
+}
+
+.card-shine {
+  background: linear-gradient(125deg, transparent 0%, rgba(255,255,255,0.2) 35%, transparent 62%);
+  background-position: var(--shine-x, 50%) var(--shine-y, 50%);
+  background-size: 220% 220%;
+}
+
+.premium-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2rem;
+  border: 1px solid rgba(212, 175, 55, 0.34);
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.35), 0 0 35px rgba(212, 175, 55, 0.16);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  animation: premiumFloat 4.2s ease-in-out infinite;
+  will-change: transform, box-shadow;
+}
+
+.premium-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.95), rgba(196, 69, 105, 0.24), rgba(255, 255, 255, 0.2), rgba(212, 175, 55, 0.95));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(212, 175, 55, 0.72);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.4), 0 0 50px rgba(212, 175, 55, 0.25);
+  animation-play-state: paused;
+}
+
+.premium-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes premiumFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes cursorSparkle {
+  0% {
+    transform: scale(0.2) translateY(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.25) translateY(-10px);
+    opacity: 0;
+  }
+}
+
+.cursor-spotlight {
+  left: var(--cursor-x, 0px);
+  top: var(--cursor-y, 0px);
+  width: 320px;
+  height: 320px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0.06) 32%, transparent 74%);
+  filter: blur(120px);
+}
+
+.cursor-glow {
+  left: var(--cursor-x, 0px);
+  top: var(--cursor-y, 0px);
+  width: 180px;
+  height: 180px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
+  opacity: 0.7;
+  filter: blur(80px);
+}
+
+.cursor-sparkle {
+  left: var(--sparkle-x, 0px);
+  top: var(--sparkle-y, 0px);
+  width: var(--sparkle-size, 4px);
+  height: var(--sparkle-size, 4px);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(212, 175, 55, 0.8) 45%, transparent 85%);
+  opacity: 0.7;
+  animation: cursorSparkle 500ms ease-out forwards;
+  animation-delay: var(--sparkle-delay, 0s);
+}
+
+::selection {
+  color: #111;
+  background: rgba(212, 175, 55, 0.35);
+}
+
+.film-grain {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+.paper-texture {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 48px 48px, 128px 128px;
+}
+
+.vignette {
+  box-shadow: inset 0 0 180px rgba(0, 0, 0, 0.65);
+}
+
+.fog-layer {
+  background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.04), transparent 28%),
+    radial-gradient(circle at 10% 80%, rgba(212, 175, 55, 0.04), transparent 22%);
+}
+
+.input-glass {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  color: var(--text);
+}
+
+::placeholder {
+  color: rgba(255, 255, 255, 0.55);
 }
