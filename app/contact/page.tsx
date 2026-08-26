@@ -1,85 +1,368 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { AtSign, Heart, Phone } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDateStore } from "@/store/dateStore";
 
 export default function ContactPage() {
-
   const router = useRouter();
 
   const [phone, setPhoneInput] = useState("");
   const [instagram, setInstagramInput] = useState("");
-  const isValid = phone.trim() !== "" && instagram.trim() !== "";
 
   const setPhone = useDateStore((state) => state.setPhone);
   const setInstagram = useDateStore((state) => state.setInstagram);
 
-  return(
+  const isValid =
+    phone.trim() !== "" &&
+    instagram.trim() !== "";
 
-<motion.main
-  initial={{ opacity: 0, scale: 0.96 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ duration: 0.6, ease: "easeOut" }}
-  className="min-h-screen bg-[var(--background)] flex justify-center items-center"
->
+  const handleContinue = () => {
+    if (!isValid) return;
 
-<div className="premium-card w-full max-w-xl rounded-[32px] border-[color:var(--gold)]/40 bg-[color:var(--card)] p-10">
+    setPhone(phone.trim());
+    setInstagram(instagram.trim());
 
-<h1 className="text-4xl text-center text-[color:var(--gold)] mb-10">
+    router.push("/overview");
+  };
 
-How Can I Reach You?
+  return (
+    <motion.main
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.6,
+        ease: "easeOut",
+      }}
+      className="
+        relative
+        min-h-screen
+        overflow-hidden
+        flex
+        items-center
+        justify-center
+        px-6
+        py-12
+        bg-[var(--background)]
+      "
+    >
+      {/* =========================
+          BACKGROUND EFFECTS
+      ========================== */}
 
-</h1>
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          z-0
+          bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.12),transparent_65%)]
+        "
+      />
 
-<input
+      <div
+        className="
+          pointer-events-none
+          absolute
+          left-[-150px]
+          top-[10%]
+          z-0
+          h-[350px]
+          w-[350px]
+          rounded-full
+          bg-rose-500/10
+          blur-[120px]
+        "
+      />
 
-placeholder="Phone Number"
+      <div
+        className="
+          pointer-events-none
+          absolute
+          bottom-[-150px]
+          right-[-100px]
+          z-0
+          h-[350px]
+          w-[350px]
+          rounded-full
+          bg-yellow-400/10
+          blur-[120px]
+        "
+      />
 
-value={phone}
+      {/* =========================
+          CONTACT CARD
+      ========================== */}
 
-onChange={(e)=>setPhoneInput(e.target.value)}
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 30,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.7,
+        }}
+        className="
+          relative
+          z-50
+          w-full
+          max-w-xl
+          rounded-[32px]
+          border
+          border-[color:var(--gold)]/50
+          bg-[color:var(--card)]/90
+          p-8
+          shadow-[0_0_80px_rgba(212,175,55,0.08)]
+          backdrop-blur-xl
+          md:p-10
+        "
+      >
+        {/* Heart */}
 
-className="w-full mb-5 rounded-xl p-4 bg-[color:var(--card)] border border-white/10 text-[color:var(--text)]"
+        <motion.div
+          animate={{
+            scale: [1, 1.08, 1],
+          }}
+          transition={{
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="mb-4 flex justify-center"
+        >
+          <Heart
+            size={42}
+            fill="currentColor"
+            className="
+              text-rose-400
+              drop-shadow-[0_0_20px_rgba(244,63,94,0.45)]
+            "
+          />
+        </motion.div>
 
-/>
+        {/* Heading */}
 
-<input
+        <h1
+          className="
+            mb-3
+            text-center
+            text-4xl
+            font-semibold
+            text-[color:var(--gold)]
+            md:text-5xl
+          "
+        >
+          How Can I Reach You?
+        </h1>
 
-placeholder="Instagram Username"
+        <p
+          className="
+            mb-10
+            text-center
+            text-sm
+            text-[color:var(--muted)]
+          "
+        >
+          Just so I know where to find you when our little plan begins...
+          ❤️
+        </p>
 
-value={instagram}
+        {/* =========================
+            PHONE
+        ========================== */}
 
-onChange={(e)=>setInstagramInput(e.target.value)}
+        <div className="mb-6">
+          <label
+            htmlFor="phone"
+            className="
+              mb-2
+              block
+              text-sm
+              font-medium
+              text-gray-300
+            "
+          >
+            Phone Number
+          </label>
 
-className="w-full mb-8 rounded-xl p-4 bg-[color:var(--card)] border border-white/10 text-[color:var(--text)]"
+          <div className="relative">
+            <Phone
+              size={20}
+              className="
+                pointer-events-none
+                absolute
+                left-4
+                top-1/2
+                z-10
+                -translate-y-1/2
+                text-yellow-200
+              "
+            />
 
-/>
+            <input
+              id="phone"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              placeholder="+94 77 123 4567"
+              value={phone}
+              onChange={(e) => setPhoneInput(e.target.value)}
+              className="
+                relative
+                z-20
+                block
+                w-full
+                cursor-text
+                rounded-2xl
+                border
+                border-white/20
+                bg-white/10
+                px-12
+                py-4
+                text-white
+                placeholder:text-gray-500
+                outline-none
+                transition-all
+                duration-300
+                hover:border-[color:var(--gold)]/60
+                focus:border-[color:var(--gold)]
+                focus:ring-2
+                focus:ring-[color:var(--gold)]/20
+              "
+            />
+          </div>
+        </div>
 
-<button
+        {/* =========================
+            INSTAGRAM
+        ========================== */}
 
-className={`w-full rounded-xl py-4 transition ${isValid ? "bg-[color:var(--rose)] hover:bg-[#b53b5d]" : "bg-[#7a3247] cursor-not-allowed"}`}
+        <div className="mb-8">
+          <label
+            htmlFor="instagram"
+            className="
+              mb-2
+              block
+              text-sm
+              font-medium
+              text-gray-300
+            "
+          >
+            Instagram Username
+          </label>
 
-disabled={!isValid}
+          <div className="relative">
+            <AtSign
+              size={20}
+              className="
+                pointer-events-none
+                absolute
+                left-4
+                top-1/2
+                z-10
+                -translate-y-1/2
+                text-yellow-200
+              "
+            />
 
-onClick={() => {
-  if (!isValid) return;
-  setPhone(phone);
-  setInstagram(instagram);
-  router.push("/overview");
-}}
+            <input
+              id="instagram"
+              type="text"
+              autoComplete="username"
+              placeholder="@yourusername"
+              value={instagram}
+              onChange={(e) => setInstagramInput(e.target.value)}
+              className="
+                relative
+                z-20
+                block
+                w-full
+                cursor-text
+                rounded-2xl
+                border
+                border-white/20
+                bg-white/10
+                px-12
+                py-4
+                text-white
+                placeholder:text-gray-500
+                outline-none
+                transition-all
+                duration-300
+                hover:border-[color:var(--gold)]/60
+                focus:border-[color:var(--gold)]
+                focus:ring-2
+                focus:ring-[color:var(--gold)]/20
+              "
+            />
+          </div>
+        </div>
 
->
+        {/* =========================
+            CONTINUE
+        ========================== */}
 
-Continue ❤️
-
-</button>
-
-</div>
-
-</motion.main>
-
+        <motion.button
+          type="button"
+          disabled={!isValid}
+          onClick={handleContinue}
+          whileHover={
+            isValid
+              ? {
+                  scale: 1.02,
+                }
+              : {}
+          }
+          whileTap={
+            isValid
+              ? {
+                  scale: 0.98,
+                }
+              : {}
+          }
+          className={`
+            relative
+            z-20
+            w-full
+            rounded-2xl
+            py-4
+            font-semibold
+            transition-all
+            duration-300
+            ${
+              isValid
+                ? `
+                  cursor-pointer
+                  bg-gradient-to-r
+                  from-rose-400
+                  via-pink-500
+                  to-rose-500
+                  text-white
+                  shadow-[0_0_30px_rgba(244,63,94,0.25)]
+                  hover:shadow-[0_0_45px_rgba(244,63,94,0.45)]
+                `
+                : `
+                  cursor-not-allowed
+                  bg-white/10
+                  text-gray-500
+                `
+            }
+          `}
+        >
+          Continue
+          <Heart
+            size={18}
+            fill="currentColor"
+            className="inline ml-2"
+          />
+        </motion.button>
+      </motion.div>
+    </motion.main>
   );
-
 }
