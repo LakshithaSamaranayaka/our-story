@@ -1,12 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import { useDateStore } from "@/store/dateStore";
 
 export default function OverviewPage() {
-  const router = useRouter();
-
   const {
     dateType,
     date,
@@ -15,12 +12,6 @@ export default function OverviewPage() {
     phone,
     instagram,
   } = useDateStore();
-
-  const handleConfirm = () => {
-    console.log("CONFIRM BUTTON CLICKED");
-
-    router.push("/thank-you");
-  };
 
   // Convert date into a nicer format
   const formattedDate = date
@@ -40,11 +31,86 @@ export default function OverviewPage() {
       })
     : "Not selected";
 
-  return (
-    <main className="relative min-h-screen overflow-hidden bg-[var(--background)] flex items-center justify-center px-6 py-12">
+  // Confirm date and open WhatsApp
+  const handleConfirm = () => {
+    const message = `
+❤️ OUR DATE IS CONFIRMED ❤️
 
-      {/* Background glow */}
+Someone just said YES to a little adventure together. 🌹
+
+🌹 Date Type:
+${dateType || "Not selected"}
+
+📅 Date:
+${formattedDate}
+
+🕰️ Time:
+${formattedTime}
+
+📍 Location:
+${location || "Not selected"}
+
+📱 Phone:
+${phone || "Not provided"}
+
+📸 Instagram:
+${instagram || "Not provided"}
+
+━━━━━━━━━━━━━━
+
+✨ The little story is officially beginning.
+
+I can't wait to make this a beautiful memory with you. ❤️
+`;
+
+    /*
+      IMPORTANT:
+      Replace this with YOUR WhatsApp number.
+
+      Example:
+      +94 77 123 4567
+
+      becomes:
+      94771234567
+
+      Do NOT include:
+      +
+      spaces
+      -
+      brackets
+    */
+
+    const whatsappNumber = "94787045693";
+
+    const whatsappUrl =
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    // Open WhatsApp
+    window.location.href = whatsappUrl;
+  };
+
+  return (
+    <main
+      className="
+        relative
+        min-h-screen
+        overflow-hidden
+        bg-[var(--background)]
+        flex
+        items-center
+        justify-center
+        px-6
+        py-12
+      "
+    >
+
+      {/* =========================================
+          BACKGROUND GLOW
+      ========================================= */}
+
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
+
+        {/* Rose glow */}
 
         <motion.div
           animate={{
@@ -68,6 +134,8 @@ export default function OverviewPage() {
           "
         />
 
+        {/* Gold glow */}
+
         <motion.div
           animate={{
             x: [0, -70, 60, 0],
@@ -90,10 +158,37 @@ export default function OverviewPage() {
           "
         />
 
+        {/* Center glow */}
+
+        <div
+          className="
+            absolute
+            left-1/2
+            top-1/2
+            h-[500px]
+            w-[500px]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-full
+            bg-[radial-gradient(circle,rgba(212,175,55,0.08),transparent_70%)]
+            blur-3xl
+          "
+        />
+
       </div>
 
-      {/* Floating hearts */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* =========================================
+          FLOATING HEARTS
+      ========================================= */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          overflow-hidden
+        "
+      >
 
         {Array.from({ length: 12 }).map((_, index) => (
           <motion.div
@@ -113,7 +208,11 @@ export default function OverviewPage() {
               delay: Math.random() * 5,
               ease: "linear",
             }}
-            className="absolute text-rose-400/30 text-xl"
+            className="
+              absolute
+              text-xl
+              text-rose-400/30
+            "
           >
             ❤️
           </motion.div>
@@ -121,7 +220,10 @@ export default function OverviewPage() {
 
       </div>
 
-      {/* Main card */}
+      {/* =========================================
+          MAIN CARD
+      ========================================= */}
+
       <motion.div
         initial={{
           opacity: 0,
@@ -154,7 +256,10 @@ export default function OverviewPage() {
         "
       >
 
-        {/* Gold inner border */}
+        {/* =========================================
+            GOLD INNER BORDER
+        ========================================= */}
+
         <div
           className="
             pointer-events-none
@@ -166,8 +271,13 @@ export default function OverviewPage() {
           "
         />
 
-        {/* Header */}
+        {/* =========================================
+            HEADER
+        ========================================= */}
+
         <div className="relative text-center">
+
+          {/* Heart */}
 
           <motion.div
             animate={{
@@ -178,14 +288,29 @@ export default function OverviewPage() {
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="mb-4 text-6xl"
+            className="
+              mb-4
+              text-6xl
+            "
           >
             ❤️
           </motion.div>
 
-          <p className="mb-2 text-sm uppercase tracking-[0.35em] text-yellow-300/70">
+          {/* Small heading */}
+
+          <p
+            className="
+              mb-2
+              text-sm
+              uppercase
+              tracking-[0.35em]
+              text-yellow-300/70
+            "
+          >
             A little plan for us
           </p>
+
+          {/* Main heading */}
 
           <h1
             className="
@@ -199,7 +324,18 @@ export default function OverviewPage() {
             Our Date
           </h1>
 
-          <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-gray-300">
+          {/* Description */}
+
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-md
+              text-sm
+              leading-7
+              text-gray-300
+            "
+          >
             Everything is ready.
             <br />
             All that's left is to make the memory. ❤️
@@ -207,19 +343,46 @@ export default function OverviewPage() {
 
         </div>
 
-        {/* Divider */}
+        {/* =========================================
+            DIVIDER
+        ========================================= */}
+
         <div className="my-8 flex items-center gap-4">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-yellow-400/40" />
 
-          <span className="text-yellow-300">✦</span>
+          <div
+            className="
+              h-px
+              flex-1
+              bg-gradient-to-r
+              from-transparent
+              to-yellow-400/40
+            "
+          />
 
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-yellow-400/40" />
+          <span className="text-yellow-300">
+            ✦
+          </span>
+
+          <div
+            className="
+              h-px
+              flex-1
+              bg-gradient-to-l
+              from-transparent
+              to-yellow-400/40
+            "
+          />
+
         </div>
 
-        {/* Date information */}
+        {/* =========================================
+            DATE INFORMATION
+        ========================================= */}
+
         <div className="relative space-y-4">
 
-          {/* Date type */}
+          {/* Date Type */}
+
           <InfoCard
             icon="🌹"
             label="Date Type"
@@ -227,6 +390,7 @@ export default function OverviewPage() {
           />
 
           {/* Date */}
+
           <InfoCard
             icon="📅"
             label="Date"
@@ -234,6 +398,7 @@ export default function OverviewPage() {
           />
 
           {/* Time */}
+
           <InfoCard
             icon="🕰️"
             label="Time"
@@ -241,6 +406,7 @@ export default function OverviewPage() {
           />
 
           {/* Location */}
+
           <InfoCard
             icon="📍"
             label="Location"
@@ -248,6 +414,7 @@ export default function OverviewPage() {
           />
 
           {/* Phone */}
+
           <InfoCard
             icon="📱"
             label="Phone"
@@ -255,6 +422,7 @@ export default function OverviewPage() {
           />
 
           {/* Instagram */}
+
           <InfoCard
             icon="📸"
             label="Instagram"
@@ -263,11 +431,20 @@ export default function OverviewPage() {
 
         </div>
 
-        {/* Romantic message */}
+        {/* =========================================
+            ROMANTIC MESSAGE
+        ========================================= */}
+
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{
+            delay: 1,
+          }}
           className="
             relative
             my-8
@@ -280,22 +457,40 @@ export default function OverviewPage() {
             text-center
           "
         >
-          <p className="text-lg italic text-rose-200">
+
+          <p
+            className="
+              text-lg
+              italic
+              text-rose-200
+            "
+          >
             "Some memories are worth making."
           </p>
 
-          <p className="mt-2 text-xs text-gray-400">
+          <p
+            className="
+              mt-2
+              text-xs
+              text-gray-400
+            "
+          >
             And I think this could be one of them. ❤️
           </p>
+
         </motion.div>
 
-        {/* Confirm button */}
+        {/* =========================================
+            CONFIRM BUTTON
+        ========================================= */}
+
         <motion.button
           type="button"
           onClick={handleConfirm}
           whileHover={{
             scale: 1.03,
-            boxShadow: "0 0 45px rgba(244,63,94,0.45)",
+            boxShadow:
+              "0 0 45px rgba(244,63,94,0.45)",
           }}
           whileTap={{
             scale: 0.97,
@@ -319,6 +514,7 @@ export default function OverviewPage() {
         >
 
           {/* Button shine */}
+
           <motion.div
             animate={{
               x: ["-120%", "120%"],
@@ -339,14 +535,27 @@ export default function OverviewPage() {
             "
           />
 
+          {/* Button text */}
+
           <span className="relative z-10">
             Confirm Our Date ❤️
           </span>
 
         </motion.button>
 
-        {/* Footer */}
-        <p className="mt-5 text-center text-xs tracking-wide text-gray-500">
+        {/* =========================================
+            FOOTER
+        ========================================= */}
+
+        <p
+          className="
+            mt-5
+            text-center
+            text-xs
+            tracking-wide
+            text-gray-500
+          "
+        >
           Made with a little courage & a lot of love ✦
         </p>
 
@@ -357,9 +566,9 @@ export default function OverviewPage() {
 }
 
 
-/* -------------------------------- */
-/* Information Card Component       */
-/* -------------------------------- */
+/* =========================================
+   INFORMATION CARD
+========================================= */
 
 function InfoCard({
   icon,
@@ -374,7 +583,8 @@ function InfoCard({
     <motion.div
       whileHover={{
         scale: 1.01,
-        borderColor: "rgba(212,175,55,0.35)",
+        borderColor:
+          "rgba(212,175,55,0.35)",
       }}
       className="
         flex
@@ -391,6 +601,7 @@ function InfoCard({
     >
 
       {/* Icon */}
+
       <div
         className="
           flex
@@ -410,13 +621,29 @@ function InfoCard({
       </div>
 
       {/* Text */}
+
       <div className="min-w-0 flex-1">
 
-        <p className="text-xs uppercase tracking-wider text-gray-500">
+        <p
+          className="
+            text-xs
+            uppercase
+            tracking-wider
+            text-gray-500
+          "
+        >
           {label}
         </p>
 
-        <p className="mt-1 break-words text-sm font-medium text-gray-200">
+        <p
+          className="
+            mt-1
+            break-words
+            text-sm
+            font-medium
+            text-gray-200
+          "
+        >
           {value}
         </p>
 
