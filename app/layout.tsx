@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import CursorEffects from "@/components/CursorEffects";
-
+import MusicPlayer from "@/components/MusicPlayer";
 
 export const metadata: Metadata = {
   title: "Our Story ❤️",
@@ -26,6 +26,7 @@ export default function RootLayout({
       <body className="bg-[var(--background)] text-[var(--text)]">
         <CursorEffects />
         {children}
+        <MusicPlayer />
       </body>
     </html>
   );
